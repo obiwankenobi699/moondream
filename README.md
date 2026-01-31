@@ -1,30 +1,42 @@
-################################################################################
-#                                                                              #
-#                              MOONDREAM                                       #
-#                                                                              #
-#              Edge-Optimized AI Surveillance & Reasoning System               #
-#                                                                              #
-################################################################################
+# MOONDREAM
 
-Moondream is a **next-generation AI surveillance assistant** that combines
-**classical computer vision** with a **local multimodal LLM** to deliver
-**explainable, evidence-driven security analysis** on resource-constrained
-edge devices (e.g. 4GB VRAM GPUs).
+**Edge-Optimized AI Surveillance & Reasoning System**
 
-This project is designed to be **hackathon-ready**, **police-relevant**, and
-**ethically grounded**, focusing on transparency, performance, and trust.
+Moondream is a next-generation AI surveillance assistant that combines classical computer vision with a local multimodal LLM to deliver explainable, evidence-driven security analysis on resource-constrained edge devices (e.g., 4GB VRAM GPUs).
 
---------------------------------------------------------------------------------
-## WHY MOONDREAM?
---------------------------------------------------------------------------------
+This project is designed to be **hackathon-ready**, **police-relevant**, and **ethically grounded**, focusing on transparency, performance, and trust.
+
+---
+
+## Table of Contents
+
+- [Why Moondream?](#why-moondream)
+- [Architecture](#architecture)
+- [Core Features](#core-features)
+- [Local LLM Integration](#local-llm-integration)
+- [Performance Philosophy](#performance-philosophy)
+- [Event-Triggered Segmentation](#event-triggered-segmentation)
+- [Installation](#installation)
+- [Running](#running)
+- [Output Example](#output-example)
+- [Police & Public Safety Value](#police--public-safety-value)
+- [Ethical & Legal Notes](#ethical--legal-notes)
+- [Roadmap](#roadmap)
+- [License](#license)
+
+---
+
+## Why Moondream?
 
 Most surveillance demos either:
-- run heavy deep models on every frame (slow, wasteful), or
-- rely on black-box AI decisions (hard to trust).
+- Run heavy deep models on every frame (slow, wasteful), or
+- Rely on black-box AI decisions (hard to trust)
 
-Moondream is different.
+**Moondream is different.**
 
-It follows a **three-layer hybrid architecture**:
+It follows a three-layer hybrid architecture that separates perception, evidence collection, and reasoning for maximum efficiency and explainability.
+
+### Architecture
 
 ```mermaid
 graph TB
@@ -79,24 +91,24 @@ graph TB
     style D4 fill:#ff7979,stroke:#a93226,color:#000
 ```
 
-The LLM **never replaces perception** — it only **explains evidence**.
+> **Key Principle:** The LLM never replaces perception — it only explains evidence.
 
---------------------------------------------------------------------------------
-## CORE FEATURES
---------------------------------------------------------------------------------
+---
 
-[✔] Real-time motion detection  
-[✔] Person & face detection (no identity recognition)  
-[✔] Multi-person tracking & movement statistics  
-[✔] Motion heatmaps & hotspot analysis  
-[✔] Event-triggered LLM reasoning (local, offline)  
-[✔] Structured threat assessment & reports  
-[✔] Evidence packages (images + JSON)  
-[✔] Optimized for RTX 3050 Mobile (4GB VRAM)  
+## Core Features
 
---------------------------------------------------------------------------------
-## LOCAL LLM INTEGRATION
---------------------------------------------------------------------------------
+- ✅ Real-time motion detection
+- ✅ Person & face detection (no identity recognition)
+- ✅ Multi-person tracking & movement statistics
+- ✅ Motion heatmaps & hotspot analysis
+- ✅ Event-triggered LLM reasoning (local, offline)
+- ✅ Structured threat assessment & reports
+- ✅ Evidence packages (images + JSON)
+- ✅ Optimized for RTX 3050 Mobile (4GB VRAM)
+
+---
+
+## Local LLM Integration
 
 Moondream uses a **local multimodal LLM** via Ollama.
 
@@ -157,71 +169,96 @@ flowchart TD
     style I4 fill:#feca57,stroke:#a67c00,color:#000
 ```
 
-✔ No cloud calls  
-✔ No OpenAI / external APIs  
-✔ Fully offline  
-✔ Privacy-preserving  
+**Privacy-First Design:**
+- ✅ No cloud calls
+- ✅ No OpenAI / external APIs
+- ✅ Fully offline
+- ✅ Privacy-preserving
 
---------------------------------------------------------------------------------
-## PERFORMANCE PHILOSOPHY
---------------------------------------------------------------------------------
+---
+
+## Performance Philosophy
 
 Moondream is **event-driven**, not frame-driven.
 
-- Vision runs continuously (cheap)
-- AI runs only when needed (expensive)
-- Best frame is selected for analysis
-- Heavy models are **selectively triggered**
+| Approach | Description |
+|----------|-------------|
+| Vision Processing | Runs continuously (cheap) |
+| AI Inference | Runs only when needed (expensive) |
+| Frame Selection | Best frame selected for analysis |
+| Model Triggering | Heavy models selectively triggered |
 
-This makes the system:
-- Faster
-- More accurate
-- More scalable
+**Benefits:**
+- Faster response times
+- Higher accuracy
+- Better scalability
 - Suitable for edge deployment
 
---------------------------------------------------------------------------------
-## OPTIONAL: EVENT-TRIGGERED SEGMENTATION (SAM)
---------------------------------------------------------------------------------
+---
 
-To improve explainability and evidence quality, segmentation can be enabled:
+## Event-Triggered Segmentation
 
-    IF (people_detected > 0 AND threat_level >= SUSPICIOUS):
-        → Run SAM on selected frame
-        → Extract pixel-accurate regions
-        → Store masks as evidence
+To improve explainability and evidence quality, optional segmentation can be enabled:
 
-Benefits:
+```
+IF (people_detected > 0 AND threat_level >= SUSPICIOUS):
+    → Run SAM on selected frame
+    → Extract pixel-accurate regions
+    → Store masks as evidence
+```
+
+**Benefits:**
 - Clear visual proof for police
 - Strong hackathon differentiator
 - No performance waste on normal scenes
 
---------------------------------------------------------------------------------
-## INSTALLATION
---------------------------------------------------------------------------------
+---
 
-1) Clone repository
+## Installation
 
-    git clone https://github.com/obiwankenobi699/moondream.git
-    cd moondream
+### Prerequisites
 
-2) Create environment
+- Python 3.8+
+- 4GB+ VRAM GPU (recommended)
+- Ollama installed
 
-    python3 -m venv .venv
-    source .venv/bin/activate
+### Setup
 
-3) Install dependencies
+1. **Clone the repository**
 
-    pip install -r requirements.txt
+```bash
+git clone https://github.com/obiwankenobi699/moondream.git
+cd moondream
+```
 
-4) Install Ollama and pull model
+2. **Create virtual environment**
 
-    ollama pull moondream
+```bash
+python3 -m venv .venv
+source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+```
 
---------------------------------------------------------------------------------
-## RUNNING
---------------------------------------------------------------------------------
+3. **Install dependencies**
 
-    uv run python EyerisAI.py
+```bash
+pip install -r requirements.txt
+```
+
+4. **Install Ollama and pull model**
+
+```bash
+ollama pull moondream
+```
+
+---
+
+## Running
+
+Start the surveillance system:
+
+```bash
+uv run python EyerisAI.py
+```
 
 The system runs in **interactive surveillance sessions** and outputs:
 
@@ -230,10 +267,11 @@ The system runs in **interactive surveillance sessions** and outputs:
 - Heatmaps
 - JSON threat reports
 
---------------------------------------------------------------------------------
-## OUTPUT EXAMPLE
---------------------------------------------------------------------------------
+---
 
+## Output Example
+
+```json
 {
   "threat_level": "safe",
   "people_detected_max": 2,
@@ -243,52 +281,58 @@ The system runs in **interactive surveillance sessions** and outputs:
   "recommended_action": "Continue routine monitoring",
   "ai_model_used": "moondream"
 }
+```
 
---------------------------------------------------------------------------------
-## POLICE & PUBLIC SAFETY VALUE
---------------------------------------------------------------------------------
+---
 
-Moondream is designed to assist — not replace — human judgment.
+## Police & Public Safety Value
 
-Key advantages:
-- Explainable decisions
-- Evidence-based reasoning
-- Privacy-aware design
-- No biometric identification
-- Clear audit trail
+Moondream is designed to **assist — not replace** — human judgment.
 
-Ideal for:
+### Key Advantages
+
+- **Explainable Decisions**: Every assessment backed by evidence
+- **Evidence-Based Reasoning**: No black-box predictions
+- **Privacy-Aware Design**: No biometric identification
+- **Clear Audit Trail**: Complete logging of all detections
+
+### Ideal Use Cases
+
 - Smart city surveillance
 - Campus security
 - Public transport monitoring
 - Hackathons & research demos
 
---------------------------------------------------------------------------------
-## ETHICAL & LEGAL NOTES
---------------------------------------------------------------------------------
+---
 
+## Ethical & Legal Notes
+
+> **Important:** Always ensure compliance with local surveillance laws.
+
+**Privacy Safeguards:**
 - No face recognition or identity matching
 - No continuous recording
 - Event-based capture only
 - Human-in-the-loop by design
 
-Always ensure compliance with local surveillance laws.
+---
 
---------------------------------------------------------------------------------
-## ROADMAP
---------------------------------------------------------------------------------
+## Roadmap
 
-[ ] Multi-camera orchestration  
-[ ] Threat score with factor weights  
-[ ] Officer-friendly dashboard  
-[ ] Evidence hashing & chain-of-custody  
-[ ] Real-time alert integrations  
+- [ ] Multi-camera orchestration
+- [ ] Threat score with factor weights
+- [ ] Officer-friendly dashboard
+- [ ] Evidence hashing & chain-of-custody
+- [ ] Real-time alert integrations
 
---------------------------------------------------------------------------------
-## LICENSE
---------------------------------------------------------------------------------
+---
+
+## License
 
 MIT License
 
---------------------------------------------------------------------------------
+---
 
+<p align="center">
+  <sub>Built with ❤️ for safer communities</sub>
+</p>
