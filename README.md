@@ -26,37 +26,58 @@ Moondream is different.
 
 It follows a **three-layer hybrid architecture**:
 
-    ┌───────────────────────────────────────────────────────────┐
-    │                       CAMERA INPUT                        │
-    └───────────────────────────────────────────────────────────┘
-                                │
-                                ▼
-    ┌───────────────────────────────────────────────────────────┐
-    │  LAYER 1: PERCEPTION (FAST, DETERMINISTIC)                │
-    │  - Motion Detection (MOG2 + Frame Diff)                   │
-    │  - Person Detection (HOG / YOLO-lite)                     │
-    │  - Face Detection (Haar Cascades)                         │
-    │  - Tracking (Centroid + Distance Metrics)                 │
-    └───────────────────────────────────────────────────────────┘
-                                │
-                                ▼
-    ┌───────────────────────────────────────────────────────────┐
-    │  LAYER 2: EVIDENCE & METRICS (EXPLAINABLE)                │
-    │  - People count                                           │
-    │  - Motion intensity (pixel area)                          │
-    │  - Loitering duration                                     │
-    │  - Movement speed & paths                                 │
-    │  - Heatmaps & spatial hotspots                            │
-    └───────────────────────────────────────────────────────────┘
-                                │
-                                ▼
-    ┌───────────────────────────────────────────────────────────┐
-    │  LAYER 3: REASONING (LOCAL LLM – MOONDREAM)               │
-    │  - Contextual threat explanation                          │
-    │  - Activity classification                                │
-    │  - Human-readable police report                           │
-    │  - Recommendations (non-hallucinated)                     │
-    └───────────────────────────────────────────────────────────┘
+```mermaid
+graph TB
+    A["CAMERA INPUT"] --> B["LAYER 1: PERCEPTION<br/>FAST, DETERMINISTIC"]
+    
+    B --> B1["Motion Detection<br/>MOG2 + Frame Diff"]
+    B --> B2["Person Detection<br/>HOG / YOLO-lite"]
+    B --> B3["Face Detection<br/>Haar Cascades"]
+    B --> B4["Tracking<br/>Centroid + Distance"]
+    
+    B1 --> C["LAYER 2: EVIDENCE & METRICS<br/>EXPLAINABLE"]
+    B2 --> C
+    B3 --> C
+    B4 --> C
+    
+    C --> C1["People Count"]
+    C --> C2["Motion Intensity"]
+    C --> C3["Loitering Duration"]
+    C --> C4["Movement Paths"]
+    C --> C5["Heatmaps & Hotspots"]
+    
+    C1 --> D["LAYER 3: REASONING<br/>LOCAL LLM - MOONDREAM"]
+    C2 --> D
+    C3 --> D
+    C4 --> D
+    C5 --> D
+    
+    D --> D1["Threat Explanation"]
+    D --> D2["Activity Classification"]
+    D --> D3["Police Report"]
+    D --> D4["Recommendations"]
+    
+    style A fill:#4a90e2,stroke:#2e5c8a,stroke-width:2px,color:#fff
+    style B fill:#50c878,stroke:#2d7a4a,stroke-width:2px,color:#fff
+    style C fill:#f39c12,stroke:#a67c00,stroke-width:2px,color:#fff
+    style D fill:#e74c3c,stroke:#a93226,stroke-width:2px,color:#fff
+    
+    style B1 fill:#7bed9f,stroke:#2d7a4a,color:#000
+    style B2 fill:#7bed9f,stroke:#2d7a4a,color:#000
+    style B3 fill:#7bed9f,stroke:#2d7a4a,color:#000
+    style B4 fill:#7bed9f,stroke:#2d7a4a,color:#000
+    
+    style C1 fill:#feca57,stroke:#a67c00,color:#000
+    style C2 fill:#feca57,stroke:#a67c00,color:#000
+    style C3 fill:#feca57,stroke:#a67c00,color:#000
+    style C4 fill:#feca57,stroke:#a67c00,color:#000
+    style C5 fill:#feca57,stroke:#a67c00,color:#000
+    
+    style D1 fill:#ff7979,stroke:#a93226,color:#000
+    style D2 fill:#ff7979,stroke:#a93226,color:#000
+    style D3 fill:#ff7979,stroke:#a93226,color:#000
+    style D4 fill:#ff7979,stroke:#a93226,color:#000
+```
 
 The LLM **never replaces perception** — it only **explains evidence**.
 
@@ -79,19 +100,62 @@ The LLM **never replaces perception** — it only **explains evidence**.
 
 Moondream uses a **local multimodal LLM** via Ollama.
 
-    Camera Frame
-        │
-        ▼
-    Resize (640x640)
-        │
-        ▼
-    Base64 Encode
-        │
-        ▼
-    Ollama /api/generate
-        │
-        ▼
-    Structured AI Analysis
+```mermaid
+flowchart TD
+    A["Camera Frame<br/>Original Resolution"] --> B{"Event<br/>Triggered?"}
+    
+    B -->|"No Activity"| A1["Skip Frame<br/>Save Resources"]
+    B -->|"Motion/Person<br/>Detected"| C["Resize to 640x640<br/>Optimize for LLM"]
+    
+    C --> D["Base64 Encode<br/>Image Serialization"]
+    
+    D --> E["Prepare Prompt<br/>Evidence + Context"]
+    
+    E --> E1["Add People Count"]
+    E --> E2["Add Motion Stats"]
+    E --> E3["Add Tracking Data"]
+    
+    E1 --> F["Ollama API<br/>/api/generate"]
+    E2 --> F
+    E3 --> F
+    
+    F --> G["Moondream Model<br/>Local Inference"]
+    
+    G --> H["Structured Analysis"]
+    
+    H --> I1["Threat Level"]
+    H --> I2["Activity Type"]
+    H --> I3["Report"]
+    H --> I4["Recommendations"]
+    
+    I1 --> J["Save Evidence Package<br/>JSON + Images"]
+    I2 --> J
+    I3 --> J
+    I4 --> J
+    
+    J --> K["Output to Console<br/>& Dashboard"]
+    
+    style A fill:#4a90e2,stroke:#2e5c8a,stroke-width:2px,color:#fff
+    style B fill:#9b59b6,stroke:#6c3483,stroke-width:2px,color:#fff
+    style C fill:#3498db,stroke:#21618c,stroke-width:2px,color:#fff
+    style D fill:#3498db,stroke:#21618c,stroke-width:2px,color:#fff
+    style E fill:#1abc9c,stroke:#117a65,stroke-width:2px,color:#fff
+    style F fill:#e67e22,stroke:#a04000,stroke-width:2px,color:#fff
+    style G fill:#e74c3c,stroke:#a93226,stroke-width:2px,color:#fff
+    style H fill:#f39c12,stroke:#a67c00,stroke-width:2px,color:#fff
+    style J fill:#27ae60,stroke:#1e8449,stroke-width:2px,color:#fff
+    style K fill:#2ecc71,stroke:#1e8449,stroke-width:2px,color:#fff
+    style A1 fill:#95a5a6,stroke:#5d6d7e,stroke-width:2px,color:#fff
+    
+    style E1 fill:#48c9b0,stroke:#117a65,color:#000
+    style E2 fill:#48c9b0,stroke:#117a65,color:#000
+    style E3 fill:#48c9b0,stroke:#117a65,color:#000
+    
+    style I1 fill:#feca57,stroke:#a67c00,color:#000
+    style I2 fill:#feca57,stroke:#a67c00,color:#000
+    style I3 fill:#feca57,stroke:#a67c00,color:#000
+    style I4 fill:#feca57,stroke:#a67c00,color:#000
+```
 
 ✔ No cloud calls  
 ✔ No OpenAI / external APIs  
