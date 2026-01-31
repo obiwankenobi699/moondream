@@ -1,0 +1,62 @@
+{
+  "surveillance_session": {
+    "camera_id": "Security Camera 1",
+    "location": "Unknown Location",
+    "start_time": "2026-01-31T12:57:20.964324",
+    "duration_seconds": 7,
+    "timestamp": "2026-01-31T12:57:28.673981"
+  },
+  "threat_assessment": {
+    "threat_level": "safe",
+    "threat_score": 0.15,
+    "score_breakdown": {
+      "people_count": 0.1,
+      "loitering": 0.0,
+      "motion_intensity": 0.0,
+      "ai_behavior": 0.05
+    },
+    "score_explanation": "No significant threats",
+    "is_explainable": true,
+    "confidence": "medium"
+  },
+  "detection_summary": {
+    "people_detected_max": 1,
+    "faces_detected": 1,
+    "tracked_individuals": 2
+  },
+  "behavioral_analysis": {
+    "primary_activity": "Unknown",
+    "behavior": "unknown",
+    "posture": "unknown",
+    "loitering_detected": false,
+    "tracking_metrics": {
+      "person_0": {
+        "movement": "stationary",
+        "distance": 0,
+        "speed": 0,
+        "dwell_time_seconds": 6.62
+      },
+      "person_1": {
+        "movement": "stationary",
+        "distance": 30,
+        "speed": 15.4,
+        "positions_tracked": 2,
+        "direction_changes": 0,
+        "pacing_detected": false,
+        "dwell_time_seconds": 5.6
+      }
+    },
+    "vision_llm_observations": "THREAT_LEVEL: [unsure]"
+  },
+  "motion_statistics": {
+    "total_frames": 110,
+    "motion_events": 14,
+    "total_motion_area": 21820
+  },
+  "system_info": {
+    "gpu_enabled": false,
+    "ai_model": "moondream",
+    "camera_resolution": "1920x1080",
+    "report_version": "3.0_PRODUCTION"
+  }
+}
